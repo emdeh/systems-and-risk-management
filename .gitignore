@@ -45,3 +45,27 @@ next-env.d.ts
 # Prisma
 prisma/dev.db
 prisma/migrations
+
+# Node
+node_modules/
+dist/
+.next/
+.turbo/
+
+# Environment
+.env
+.env.*.local
+
+# DB (SQLite)
+*.db
+*.db-journal
+
+# Logs
+*.log
+
+# Prisma
+/prisma/migrations/
+
+# VSCode or JetBrains IDEs
+.vscode/
+.idea/
