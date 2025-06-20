@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Guideline {
+  id        Int       @id @default(autoincrement())
+  title     String    @unique
+  sections  Section[]
+
+  
+  @@map("Guideline")
+}
+
+model Section {
+  id           Int        @id @default(autoincrement())
+  title        String
+  guidelineId  Int
+  guideline    Guideline  @relation(fields: [guidelineId], references: [id])
+  topics       Topic[]
+
+
+  @@index([guidelineId])
+  @@unique([title, guidelineId])
+  @@map("Section")
+}
+
+model Topic {
+  id         Int       @id @default(autoincrement())
+  title      String
+  sectionId  Int
+  section    Section   @relation(fields: [sectionId], references: [id])
+  controls   Control[]
+
+
+  @@index([sectionId])
+  @@unique([title, sectionId]) 
+  @@map("Topic")
+}
+
+model Control {
+  identifier   String   @id
+  revision     Int?
+  updatedRaw   String?
+  description  String
+  /* Applicability flags */
+  NC           Boolean   @default(false)
+  OS           Boolean   @default(false)
+  P            Boolean   @default(false)
+  S            Boolean   @default(false)
+  TS           Boolean   @default(false)
+  /* Essential Eight maturity flags */
+  ML1          Boolean   @default(false)
+  ML2          Boolean   @default(false)
+  ML3          Boolean   @default(false)
+
+  topicId      Int
+  topic        Topic     @relation(fields: [topicId], references: [id])
+
+  lastSynced   DateTime  @default(now())
+
+  @@index([topicId])
+  @@map("Control")
+}
