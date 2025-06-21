@@ -1,6 +1,9 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+/// ─────────────────────────────────────────
+//  client and database source
+/// ─────────────────────────────────────────
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,62 +13,234 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Guideline {
-  id        Int       @id @default(autoincrement())
-  title     String    @unique
-  sections  Section[]
+/// ─────────────────────────────────────────
+//  ISM Controls
+/// ─────────────────────────────────────────
 
-  
+model Guideline {
+  id       Int       @id @default(autoincrement())
+  title    String    @unique
+  sections Section[]
+
   @@map("Guideline")
 }
 
 model Section {
-  id           Int        @id @default(autoincrement())
-  title        String
-  guidelineId  Int
-  guideline    Guideline  @relation(fields: [guidelineId], references: [id])
-  topics       Topic[]
+  id          Int       @id @default(autoincrement())
+  title       String
+  guidelineId Int
+  guideline   Guideline @relation(fields: [guidelineId], references: [id])
+  topics      Topic[]
 
-
-  @@index([guidelineId])
   @@unique([title, guidelineId])
+  @@index([guidelineId])
   @@map("Section")
 }
 
 model Topic {
-  id         Int       @id @default(autoincrement())
-  title      String
-  sectionId  Int
-  section    Section   @relation(fields: [sectionId], references: [id])
-  controls   Control[]
+  id        Int       @id @default(autoincrement())
+  title     String
+  sectionId Int
+  section   Section   @relation(fields: [sectionId], references: [id])
+  controls  Control[]
 
-
+  @@unique([title, sectionId])
   @@index([sectionId])
-  @@unique([title, sectionId]) 
   @@map("Topic")
 }
 
 model Control {
-  identifier   String   @id
-  revision     Int?
-  updatedRaw   String?
-  description  String
-  /* Applicability flags */
-  NC           Boolean   @default(false)
-  OS           Boolean   @default(false)
-  P            Boolean   @default(false)
-  S            Boolean   @default(false)
-  TS           Boolean   @default(false)
-  /* Essential Eight maturity flags */
-  ML1          Boolean   @default(false)
-  ML2          Boolean   @default(false)
-  ML3          Boolean   @default(false)
+  identifier  String  @id
+  revision    Int?
+  updatedRaw  String?
+  description String
+  /**
+   * Applicability flags
+   */
+  NC          Boolean @default(false)
+  OS          Boolean @default(false)
+  P           Boolean @default(false)
+  S           Boolean @default(false)
+  TS          Boolean @default(false)
+  /**
+   * Essential Eight maturity flags
+   */
+  ML1         Boolean @default(false)
+  ML2         Boolean @default(false)
+  ML3         Boolean @default(false)
 
   topicId      Int
-  topic        Topic     @relation(fields: [topicId], references: [id])
+  topic        Topic         @relation(fields: [topicId], references: [id])
+  riskControls RiskControl[]
 
-  lastSynced   DateTime  @default(now())
+  lastSynced DateTime @default(now())
 
   @@index([topicId])
   @@map("Control")
+}
+
+/// ─────────────────────────────────────────
+///  Risk Register
+/// ─────────────────────────────────────────
+
+enum RiskResponse {
+  MITIGATE
+  ACCEPT
+  AVOID
+  TRANSFER
+}
+
+enum RiskStatus {
+  OPEN
+  IN_PROGRESS
+  ACCEPTED
+  CLOSED
+}
+
+enum ReviewFrequency {
+  MONTHLY
+  QUARTERLY
+  BI_ANNUAL
+  ANNUAL
+}
+
+enum TreatmentStatus {
+  PENDING
+  GREEN
+  AMBER
+  RED
+  COMPLETED
+}
+
+enum ControlRelationType {
+  MITIGATES
+  GAP
+}
+
+enum ControlFramework {
+  ISM
+  PSPF
+  ESSENTIAL_EIGHT
+}
+
+/// Lookup tables
+
+model RiskCategory {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  description String?
+  risks       Risk[]
+}
+
+model Likelihood {
+  id           Int     @id
+  name         String  @unique
+  numericValue Int
+  description  String?
+
+  // back-relations
+  riskMatrix    RiskMatrix[]
+  inherentRisks Risk[]       @relation("InherentLikely")
+  residualRisks Risk[]       @relation("ResidualLikely")
+}
+
+model Consequence {
+  id           Int     @id
+  name         String  @unique
+  numericValue Int
+  description  String?
+
+  // back-relations
+  riskMatrix           RiskMatrix[]
+  inherentConsequRisks Risk[]       @relation("InherentConsequ")
+  residualConsequRisks Risk[]       @relation("ResidualConsequ")
+}
+
+model RiskLevel {
+  id    Int     @id
+  name  String  @unique
+  rank  Int
+  color String?
+
+  // back-relations
+  riskMatrixLevels   RiskMatrix[] @relation("RiskMatrix")
+  inherentLevelRisks Risk[]       @relation("InherentLevel")
+  residualLevelRisks Risk[]       @relation("ResidualLevel")
+}
+
+/// Matrix mapping each likelihood×consequence to a risk level
+
+model RiskMatrix {
+  likelihood    Likelihood  @relation(fields: [likelihoodId], references: [id])
+  likelihoodId  Int
+  consequence   Consequence @relation(fields: [consequenceId], references: [id])
+  consequenceId Int
+  riskLevel     RiskLevel   @relation("RiskMatrix", fields: [riskLevelId], references: [id])
+  riskLevelId   Int
+
+  @@id([likelihoodId, consequenceId])
+}
+
+/// Core tables
+
+model RiskControl {
+  risk         Risk                 @relation(fields: [riskId], references: [id])
+  riskId       Int
+  control      Control              @relation(fields: [controlId], references: [identifier])
+  controlId    String
+  relationType ControlRelationType?
+
+  @@id([riskId, controlId])
+}
+
+model RiskTreatment {
+  id            Int             @id @default(autoincrement())
+  risk          Risk            @relation(fields: [riskId], references: [id])
+  riskId        Int
+  description   String
+  owner         String
+  targetDate    DateTime?
+  status        TreatmentStatus @default(PENDING)
+  completedDate DateTime?
+}
+
+model Risk {
+  id          Int          @id @default(autoincrement())
+  title       String
+  description String
+  category    RiskCategory @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+
+  // Inherent (pre-control) assessment
+  inherentLikelihood    Likelihood  @relation("InherentLikely", fields: [inherentLikelihoodId], references: [id])
+  inherentLikelihoodId  Int
+  inherentConsequence   Consequence @relation("InherentConsequ", fields: [inherentConsequenceId], references: [id])
+  inherentConsequenceId Int
+  inherentRiskLevel     RiskLevel   @relation("InherentLevel", fields: [inherentRiskLevelId], references: [id])
+  inherentRiskLevelId   Int
+
+  // Residual (post-control) assessment
+  residualLikelihood    Likelihood  @relation("ResidualLikely", fields: [residualLikelihoodId], references: [id])
+  residualLikelihoodId  Int
+  residualConsequence   Consequence @relation("ResidualConsequ", fields: [residualConsequenceId], references: [id])
+  residualConsequenceId Int
+  residualRiskLevel     RiskLevel   @relation("ResidualLevel", fields: [residualRiskLevelId], references: [id])
+  residualRiskLevelId   Int
+
+  // Response & status
+  riskResponse RiskResponse
+  status       RiskStatus   @default(OPEN)
+
+  // Review scheduling
+  reviewFrequency ReviewFrequency?
+  nextReviewDate  DateTime?
+  lastReviewDate  DateTime?
+
+  // Ownership & metadata
+  riskOwner String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  treatments   RiskTreatment[]
+  riskControls RiskControl[]
 }
