@@ -39,7 +39,6 @@ export async function seedRiskMatrix() {
       { likelihoodId: 3, consequenceId: 5, riskLevelId: 5 }, // Even Chance + Catastrophic → Very High
       { likelihoodId: 4, consequenceId: 5, riskLevelId: 6 }, // Likely + Catastrophic → Extreme
       { likelihoodId: 5, consequenceId: 5, riskLevelId: 6 }, // Almost Certain + Catastrophic → Extreme
-    ],
-    skipDuplicates: true,
+    ]
   });
 }

@@ -10,7 +10,6 @@ export async function seedRiskConsequence() {
       { id: 3, name: "Major",          numericValue: 3 },
       { id: 4, name: "Severe",         numericValue: 4 },
       { id: 5, name: "Catastrophic",   numericValue: 5 },
-    ],
-    skipDuplicates: true,
+    ]
   });
 }

@@ -10,7 +10,6 @@ export async function seedRiskLikelihood() {
       { id: 3, name: "Even Chance",    numericValue: 3 },
       { id: 4, name: "Likely",         numericValue: 4 },
       { id: 5, name: "Almost Certain", numericValue: 5 },
-    ],
-    skipDuplicates: true,
+    ]
   });
 }
