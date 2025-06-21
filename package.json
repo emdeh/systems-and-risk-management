@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "import:ism": "tsx src/jobs/importISM.ts"
+    "import:ism": "tsx src/jobs/updateAndImportISM.ts"
   },
   "dependencies": {
     "next": "15.3.4",
@@ -21,6 +21,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^16.5.0",
     "eslint": "^9",
     "eslint-config-next": "15.3.4",
     "prisma": "^6.10.1",

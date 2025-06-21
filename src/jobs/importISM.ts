@@ -1,15 +1,19 @@
 import { PrismaClient } from "@prisma/client";
-import catalogJson from "../controls.json" assert { type: "json" };
-
+import { readFile } from "fs/promises";
+import path from "path";
 import type { Catalog } from "@/types/catalog";
 import { traverseGroups, hasApplicability } from "@/utils/catalogUtils";
 
-const prisma = new PrismaClient();
-const catalog = catalogJson as Catalog;
+export async function importControls(): Promise<void> {
+  
+  // 1) Read the fetched JSON file
+  const filePath = path.resolve(process.cwd(), process.env.ISM_CONTROLS_PATH!);
+  const raw = await readFile(filePath, "utf-8");
+  const catalog: Catalog = JSON.parse(raw);
 
-async function importControls() {
-  const tasks: Promise<unknown>[] = [];
-
+  // 2) Proceed using `catalog.catalog.groups`
+  const prisma = new PrismaClient();
+  const tasks: Promise<void>[] = [];
   traverseGroups(catalog.catalog.groups, (guideline, section, topic, control) => {
   
     tasks.push(
@@ -83,10 +87,3 @@ async function importControls() {
 
   await Promise.all(tasks);
 }
-
-importControls()
-  .then(() => prisma.$disconnect())
-  .catch(e => {
-    console.error(e);
-    prisma.$disconnect().then(() => process.exit(1));
-  });
