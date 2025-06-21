@@ -49,6 +49,7 @@ Your changes will reload automatically during development.
 
 ---
 
-## 🧱 4. Set Up the Database Schema
+## 🧱 4. Set Up the Database Schema and import Data
 
-Follow the [Import External Data Guide](/docs/dev_import_external_data.md) to setup the database schema(s) and import data.
+- Follow the [Schema Seeding Guide](/docs/dev_schema_seeding.md) to seed the database schema.
+- Follow the [Import External Data Guide](/docs/dev_import_external_data.md) to import external data.
