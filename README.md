@@ -11,3 +11,4 @@ See the [Getting Started (Dev) guide](/docs/dev_getting_started.md).
 Other useful guides:
 - [Import External Data Guide](/docs/import_external_data.md)
 - [Schema Seeding](/docs/dev_schema_seeding.md)
+- [Understanding Project Structure](/docs/dev_understanding_project_structure.md)
