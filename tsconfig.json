@@ -26,7 +26,10 @@
 
     // ← map @/* to src/*
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@shared/*":  ["src/shared/*"],
+      "@modules/*": ["src/modules/*"],
+      "@jobs/*":    ["src/jobs/*"]
     }
   },
   "include": [

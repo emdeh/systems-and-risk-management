@@ -3,6 +3,9 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function seedRiskLevel() {
+
+  await prisma.riskLevel.deleteMany();
+
   await prisma.riskLevel.createMany({
     data: [
       { id: 1, name: "Very Low",  rank: 1, color: "#00A000" },

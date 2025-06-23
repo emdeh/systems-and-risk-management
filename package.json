@@ -9,8 +9,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
+    "type-check": "tsc --noEmit",
     "lint": "next lint",
-    "import:ism": "tsx src/jobs/updateAndImportISM.ts"
+    "import:ism": "tsx src/jobs/utils/ism-controls/updateAndImportISM.ts"
   },
   "dependencies": {
     "next": "15.3.4",
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@faker-js/faker": "^9.8.0",
     "@prisma/client": "^6.10.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",

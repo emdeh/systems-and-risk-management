@@ -1,8 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import { readFile } from "fs/promises";
 import path from "path";
-import type { Catalog } from "@/types/catalog";
-import { traverseGroups, hasApplicability } from "@/utils/catalogUtils";
+import type { Catalog } from "@/shared/types/catalog";
+import { traverseGroups, hasApplicability } from "@/jobs/utils/ism-controls/catalogUtils";
 
 export async function importControls(): Promise<void> {
   

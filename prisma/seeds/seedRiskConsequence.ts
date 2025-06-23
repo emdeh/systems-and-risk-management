@@ -3,6 +3,9 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function seedRiskConsequence() {
+
+  await prisma.consequence.deleteMany();
+
   await prisma.consequence.createMany({
     data: [
       { id: 1, name: "Insignificant",  numericValue: 1 },

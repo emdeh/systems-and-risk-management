@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
-import { fetchControls, cleanupControls } from "@/utils/fetchExternal";
+import { fetchControls, cleanupControls } from "@/jobs/utils/ism-controls/fetchExternal";
 import { importControls } from "./importISM";
 
 const prisma = new PrismaClient();

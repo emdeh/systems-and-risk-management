@@ -1,8 +1,11 @@
 // prisma/seeds/seedRiskLikelihood.ts
 import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+const prisma = new PrismaClient(); 
 
 export async function seedRiskLikelihood() {
+
+  await prisma.likelihood.deleteMany();
+  
   await prisma.likelihood.createMany({
     data: [
       { id: 1, name: "Rare",           numericValue: 1 },
