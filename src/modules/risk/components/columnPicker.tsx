@@ -1,21 +1,34 @@
+// src/modules/risk/components/columnPicker.tsx
 'use client';
-import { useState } from 'react';
 
-interface Column { key: string; label: string }
+import { useState } from 'react';
+import type { ColumnDef, RiskColumnKey } from '@/modules/risk/constants/columns';
+
 interface ColumnPickerProps {
-  columns: Column[];
-  visibleColumns: string[];
-  onChange: (visible: string[]) => void;
+  columns: ColumnDef[];
+  visibleColumns: RiskColumnKey[];
+  onChange: (visible: RiskColumnKey[]) => void;
 }
 
-export default function ColumnPicker({ columns, visibleColumns, onChange }: ColumnPickerProps) {
-  const [localVisible, setLocalVisible] = useState<string[]>(visibleColumns);
-  const toggle = (key: string) => {
+export default function ColumnPicker({
+  columns,
+  visibleColumns,
+  onChange,
+}: ColumnPickerProps) {
+  // local state now typed to RiskColumnKey[]
+  const [localVisible, setLocalVisible] = useState<RiskColumnKey[]>(visibleColumns);
+
+  const toggle = (key: RiskColumnKey) => {
     setLocalVisible(prev =>
-      prev.includes(key) ? prev.filter(c => c !== key) : [...prev, key]
+      prev.includes(key)
+        ? prev.filter(c => c !== key)
+        : [...prev, key]
     );
   };
-  const apply = () => onChange(localVisible);
+
+  const apply = () => {
+    onChange(localVisible);
+  };
 
   return (
     <div className="absolute top-10 right-0 bg-white border p-4 shadow-lg z-10">

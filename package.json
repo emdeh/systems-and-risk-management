@@ -10,7 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "import:ism": "tsx src/jobs/updateAndImportISM.ts"
+    "import:ism": "tsx src/jobs/utils/ism-controls/updateAndImportISM.ts"
   },
   "dependencies": {
     "next": "15.3.4",

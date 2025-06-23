@@ -1,4 +1,4 @@
-import type { Group, Control } from "@/types/catalog";
+import type { Group, Control } from "@/shared/types/catalog";
 
 export function traverseGroups(
   groups: Group[],

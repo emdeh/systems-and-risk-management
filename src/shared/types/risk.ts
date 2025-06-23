@@ -14,4 +14,6 @@ export interface Risk {
   status: 'OPEN' | 'IN_PROGRESS' | 'ACCEPTED' | 'CLOSED';
   nextReviewDate: string | null;
   riskOwner: string;
+  createdAt: string; //do we add these?
+  updatedAt: string;
 }
