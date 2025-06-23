@@ -1,4 +1,4 @@
-// src/modules/risk/constants/columns.ts
+// src/app/(risks)/constants/columns.ts
 import type { Risk } from '@/shared/types/risk';
 
 export type RiskColumnKey = keyof Risk;

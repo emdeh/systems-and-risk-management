@@ -1,8 +1,8 @@
-// src/modules/risk/components/columnPicker.tsx
+// src/app/(risks)/components/columnPicker.tsx
 'use client';
 
 import { useState } from 'react';
-import type { ColumnDef, RiskColumnKey } from '@/modules/risk/constants/columns';
+import type { ColumnDef, RiskColumnKey } from '@/app/(risks)/constants/columns';
 
 interface ColumnPickerProps {
   columns: ColumnDef[];

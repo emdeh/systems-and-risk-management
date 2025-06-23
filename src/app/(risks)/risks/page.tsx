@@ -3,11 +3,11 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import ColumnPicker from '@/modules/risk/components/columnPicker';
-import RiskTable from '@/modules/risk/components/riskTable';
+import ColumnPicker from '@/app/(risks)/components/columnPicker';
+import RiskTable from '@/app/(risks)/components/riskTable';
 import { fetchRisks } from '@/shared/lib/fetcher';
 import type { Risk } from '@/shared/types/risk';
-import { riskColumnDefs, RiskColumnKey } from '@/modules/risk/constants/columns';
+import { riskColumnDefs, RiskColumnKey } from '@/app/(risks)/constants/columns';
 
 const defaultColumns: RiskColumnKey[] = [
   'title',

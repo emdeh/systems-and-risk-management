@@ -1,8 +1,8 @@
-// src/modules/risk/components/riskTable.tsx
+// src/app/(risks)/components/riskTable.tsx
 'use client';
 
 import type { Risk } from '@/shared/types/risk';
-import { riskColumnDefs, RiskColumnKey } from '@/modules/risk/constants/columns';
+import { riskColumnDefs, RiskColumnKey } from '@/app/(risks)/constants/columns';
 
 interface RiskTableProps {
   risks: Risk[];
