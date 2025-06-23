@@ -220,12 +220,12 @@ model Risk {
   inherentRiskLevelId   Int
 
   // Residual (post-control) assessment
-  residualLikelihood    Likelihood  @relation("ResidualLikely", fields: [residualLikelihoodId], references: [id])
-  residualLikelihoodId  Int
-  residualConsequence   Consequence @relation("ResidualConsequ", fields: [residualConsequenceId], references: [id])
-  residualConsequenceId Int
-  residualRiskLevel     RiskLevel   @relation("ResidualLevel", fields: [residualRiskLevelId], references: [id])
-  residualRiskLevelId   Int
+  residualLikelihood    Likelihood?  @relation("ResidualLikely", fields: [residualLikelihoodId], references: [id])
+  residualLikelihoodId  Int?
+  residualConsequence   Consequence? @relation("ResidualConsequ", fields: [residualConsequenceId], references: [id])
+  residualConsequenceId Int?
+  residualRiskLevel     RiskLevel?   @relation("ResidualLevel", fields: [residualRiskLevelId], references: [id])
+  residualRiskLevelId   Int?
 
   // Response & status
   riskResponse RiskResponse

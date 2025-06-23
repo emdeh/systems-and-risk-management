@@ -7,6 +7,7 @@ export async function GET() {
   return NextResponse.json(risks);
 }
 
+
 export async function POST(req: Request) {
   const body = await req.json();
 
@@ -38,17 +39,7 @@ export async function POST(req: Request) {
   }
 
   // 3️ Same for residual
-  const residualMatrix = await prisma.riskMatrix.findUnique({
-    where: {
-      likelihoodId_consequenceId: {
-        likelihoodId: residualLikelihoodId,
-        consequenceId: residualConsequenceId,
-      }
-    }
-  });
-  if (!residualMatrix) {
-    return NextResponse.json({ error: 'Invalid residual LxC combination' }, { status: 400 });
-  }
+  const defaultResidualLevelId = inherentMatrix.riskLevelId; // Default to inherent level for new risks
 
   // 4️ Create the Risk with computed levels
   const newRisk = await prisma.risk.create({
@@ -59,9 +50,9 @@ export async function POST(req: Request) {
       inherentLikelihoodId,
       inherentConsequenceId,
       inherentRiskLevelId: inherentMatrix.riskLevelId,
-      residualLikelihoodId,
-      residualConsequenceId,
-      residualRiskLevelId: residualMatrix.riskLevelId,
+      residualLikelihoodId: inherentLikelihoodId,
+      residualConsequenceId: inherentConsequenceId,
+      residualRiskLevelId: defaultResidualLevelId,
       riskResponse,
       riskOwner,
     },

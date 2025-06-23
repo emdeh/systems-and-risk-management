@@ -119,19 +119,6 @@ export default function NewRiskPage() {
               {consequences.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
             </select>
           </fieldset>
-          <fieldset>
-            <legend className="font-semibold">Residual Assessment *</legend>
-            <label>Likelihood</label>
-            <select required value={residualLikelihoodId} onChange={e => setResidualLikelihoodId(+e.target.value)} className="w-full border px-2 py-1 rounded">
-              <option/>
-              {likelihoods.map(l => <option key={l.id} value={l.id}>{l.name}</option>)}
-            </select>
-            <label>Consequence</label>
-            <select required value={residualConsequenceId} onChange={e => setResidualConsequenceId(+e.target.value)} className="w-full border px-2 py-1 rounded">
-              <option/>
-              {consequences.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-            </select>
-          </fieldset>
         </div>
         <div>
           <label>Owner *</label>
