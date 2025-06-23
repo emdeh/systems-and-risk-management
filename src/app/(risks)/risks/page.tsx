@@ -2,6 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import ColumnPicker from '@/modules/risk/components/columnPicker';
 import RiskTable from '@/modules/risk/components/riskTable';
 import { fetchRisks } from '@/shared/lib/fetcher';
@@ -33,6 +34,11 @@ export default function RisksPage() {
           >
             ⚙︎ Columns
           </button>
+          <Link href="/risks/new">
+            <button className="px-4 py-2 bg-green-600 text-white rounded">
+              + New Risk
+            </button>
+          </Link>
           {showPicker && (
             <ColumnPicker
               columns={riskColumnDefs}
