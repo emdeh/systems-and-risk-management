@@ -9,11 +9,24 @@ import { fetchRisks } from '@/shared/lib/fetcher';
 import type { Risk } from '@/shared/types/risk';
 import { riskColumnDefs, RiskColumnKey } from '@/modules/risk/constants/columns';
 
+const defaultColumns: RiskColumnKey[] = [
+  'title',
+  'description',
+  'inherentLikelihood',
+  'inherentConsequence',
+  'inherentRiskLevel',
+  'residualLikelihood',
+  'residualConsequence',
+  'residualRiskLevel',
+  'riskResponse',
+  'status',
+]
+
 export default function RisksPage() {
   const [risks, setRisks] = useState<Risk[]>([]);
   const [visibleColumns, setVisibleColumns] = useState<RiskColumnKey[]>(
     // start with every available column
-    riskColumnDefs.map(c => c.key)
+    defaultColumns
   );
   const [showPicker, setShowPicker] = useState(false);
 
