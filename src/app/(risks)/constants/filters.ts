@@ -1,4 +1,4 @@
-export type FilterKey = 'status' | 'owner' | 'category' | 'inherentRiskLevel' | 'residualRiskLevel';
+export type FilterKey = 'status' | 'owner' | 'category' | 'inherentRiskLevel' | 'residualRiskLevel' | 'riskResponse';
 
 export interface RiskFilters {
   status: string[];
@@ -6,6 +6,7 @@ export interface RiskFilters {
   category: string[];
   inherentRiskLevel: string[];
   residualRiskLevel: string[];
+  riskResponse: string[];
 }
 
 export const emptyFilters: RiskFilters = {
@@ -14,4 +15,5 @@ export const emptyFilters: RiskFilters = {
   category: [],
   inherentRiskLevel: [],
   residualRiskLevel: [],
+  riskResponse: [],
 };

@@ -57,7 +57,7 @@ export default function FilterPicker({
   return (
     <div className="absolute top-10 right-0 bg-white border p-4 shadow-lg z-10 w-72">
       {renderGroup('Status', 'status', options.status)}
-      {renderGroup('Owner', 'owner', options.owner)}
+      {renderGroup('Response', 'riskResponse', options.riskResponse)}
       {renderGroup('Category', 'category', options.category)}
       {renderGroup('Inherent Level', 'inherentRiskLevel', options.inherentRiskLevel)}
       {renderGroup('Residual Level', 'residualRiskLevel', options.residualRiskLevel)}
