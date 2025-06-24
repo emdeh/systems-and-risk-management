@@ -8,7 +8,6 @@ import RiskTable from '@/app/(risks)/components/riskTable';
 import { fetchRisks } from '@/shared/lib/fetcher';
 import type { Risk } from '@/shared/types/risk';
 import { riskColumnDefs, RiskColumnKey } from '@/app/(risks)/constants/columns';
-import FilterPicker from '@/app/(risks)/components/filterPicker';
 
 const defaultColumns: RiskColumnKey[] = [
   'title',
@@ -47,7 +46,6 @@ export default function RisksPage() {
             onClick={() => setShowPicker(prev => !prev)}
           >
             🔍 Filters
-            // TODO: Implement filter functionality
           </button>
           <span className="mx-2" aria-hidden="true" />
           <button
